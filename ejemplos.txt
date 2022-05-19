@@ -1,0 +1,114 @@
+{
+    "ID_elector" : "sha45ty929",
+    "DNI_elector" : 76918799,
+    "Nombre_elector" : "Fabricio",
+    "Apellidos_elector" : "Centeno",
+    "Estado_elector" : 0,
+    "Tipo_elector" : "elector",
+    "Direccion_elector" : "Urb. Crisantemos",
+    "Departamento_elector" : "Arequipa",
+    "Email_elector" : "rcentenoc@gmail.com",
+    "Telefono_elector" : 989131389,
+    "Nacimiento_elector" : "1997-10-28",
+    "Genero_elector" : "Masculino",
+    "Password_elector" : "4587541213",
+    "ID_ubigeo_elector" : "040101"
+}
+
+{
+    "ID_elector" : "sha35ty100",
+    "DNI_elector" : 56458789,
+    "Nombre_elector" : "Luciana",
+    "Apellidos_elector" : "Puente de la Vega",
+    "Estado_elector" : 0,
+    "Tipo_elector" : "Elector",
+    "Direccion_elector" : "Urb. Los jacintos",
+    "Departamento_elector" : "Cusco",
+    "Email_elector" : "lpuentev@gmail.com",
+    "Telefono_elector" : 987545621,
+    "Nacimiento_elector" : "1998-03-25",
+    "Genero_elector" : "Femenino",
+    "Password_elector" : "235647852",
+    "ID_ubigeo_elector" : "080104"
+}
+{
+    "ID_elector" : "sha89ty400",
+    "DNI_elector" : 01254565,
+    "Nombre_elector" : "Lisandro",
+    "Apellidos_elector" : "Aristimuño",
+    "Estado_elector" : 0,
+    "Tipo_elector" : "Candidato",
+    "Direccion_elector" : "Urb. Matorrales F-21",
+    "Departamento_elector" : "Amazonas",
+    "Email_elector" : "laristimuño@gmail.com",
+    "Telefono_elector" : 9897854,
+    "Nacimiento_elector" : "1985-03-25",
+    "Genero_elector" : "Masculino",
+    "Password_elector" : "156897845",
+    "ID_ubigeo_elector" : "010103"
+}
+{
+    "ID_elector" : "sha40ty356",
+    "DNI_elector" : 26568789,
+    "Nombre_elector" : "Silvip",
+    "Apellidos_elector" : "Rodriguez",
+    "Estado_elector" : 0,
+    "Tipo_elector" : "Elector",
+    "Direccion_elector" : "Urb. Velasco Astete S-15",
+    "Departamento_elector" : "Ica",
+    "Email_elector" : "sroduiguez@gmail.com",
+    "Telefono_elector" : 945687856,
+    "Nacimiento_elector" : "1950-01-20",
+    "Genero_elector" : "Masculino",
+    "Password_elector" : "568795456",
+    "ID_ubigeo_elector" : "110102"
+}
+
+
+-------------------------------------------------- partido
+
+{
+        "Direción_partido_politico": "Urb. Los Arrozales R-1",
+        "Foto_partido_politico": "https://apraperu.com/wp-content/uploads/2019/03/apra_logo.png",
+        "ID_siglas_partido_politico": "APRA",
+        "ID_ubigeo": "150106",
+        "Nombre_departamento": "Lima",
+        "Nombre_partido_politico": "Alianza Popular Revolucionaria Americana",
+        "Web_partido_politico": "https://apraperu.com/"
+}
+
+{
+        "Direción_partido_politico": "Urb. Los Jalapeños T-4",
+        "Foto_partido_politico": "https://www.partidomorado.pe/web_page/images/logo_partido_morado.png",
+        "ID_siglas_partido_politico": "PM",
+        "ID_ubigeo": "150104",
+        "Nombre_departamento": "Lima",
+        "Nombre_partido_politico": "Partido Morado",
+        "Web_partido_politico": "https://www.partidomorado.pe/"
+}
+
+-------------------------------------------------- candidato
+{
+    "ID_candidato": 1, 
+    "ID_candidato_elector": "sha46ty930", 
+    "DNI_candidato_elector": 46876589, 
+    "Nombre_candidato_elector": "Andrea", 
+    "Apellidos_candidato_elector": "Oviedo", 
+    "Foto_candidato": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.-3bts9svaJqEhcAQrqs0awHaGV%26pid%3DApi&f=1", 
+    "Hoja_de_vida_candidato": "null", 
+    "Propuesta_candidato": "null",
+    "ID_partido_politico": "PM", 
+    "Nombre_departamento": "Arequipa"
+}
+
+-------------------------------------------------- cedula de votación
+
+{   
+    "ID_cedula":1,
+    "ID_elector_cedula": "sha46ty930", 
+    "ID_partido_politico_cedula": "PM", 
+    "ID_candidato_cedula":"1", 
+    "ID_ubigeo_cedula":"040203", 
+    "Fecha_cedula_voto":"2021-03-25 11:25:02"
+}
+
