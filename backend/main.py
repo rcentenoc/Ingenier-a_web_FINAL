@@ -2,15 +2,19 @@ from enum import unique
 from flask import Flask, request, jsonify, redirect, make_response, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_cors import CORS, cross_origin
+from flask import render_template
 import psycopg2
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder ="../frontend0/dist", template_folder ="../frontend/dist")
+cors = CORS(app)
+# /frontend/dist/static
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/flaskmysql'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['SECRET_KEY'] = 'mysecretkey'
 app.config['WTF_CSRF_ENABLED']= False
-
+#
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
@@ -21,13 +25,17 @@ ma = Marshmallow(app)
 
 @app.route('/')
 def index():
-    response = make_response(redirect('/hello'))
+    response = make_response(redirect('/api'))
     return response
 
-@app.route('/hello', methods=['GET', 'POST'])
+@app.route('/api', methods=['GET', 'POST'])
 def hello ():
-    return'Bienvenido a mi API'
+    return 'Bienvenido a mi API'
 
+@app.route('/',defaults={'path':''})
+@app.route('/<path:path>')
+def dender_vue(path):
+    return render_template("index.html")
 # ------------------------------------------------------------------------------------------------------------------------------------
 
 #tabla departamento
@@ -49,7 +57,9 @@ class DepartamentoSchema(ma.Schema):
 Departamento_schema = DepartamentoSchema()
 Departamentos_schema = DepartamentoSchema(many=True)
 
+
 @app.route('/departamento', methods=['POST'])
+@cross_origin()
 def add_departamento():
     ID_departamento = request.json['ID_departamento']
     Nombre_departamento = request.json['Nombre_departamento']
@@ -61,17 +71,20 @@ def add_departamento():
     return Departamento_schema.jsonify(new_departamento)
 
 @app.route('/departamento', methods=['GET'])
+@cross_origin()
 def get_departamento():
     all_departamentos = Departamento.query.all()
     result = Departamentos_schema.dump(all_departamentos)
     return jsonify(result)
 
 @app.route('/departamento/<Nombre_departamento>', methods=['GET'])
+@cross_origin()
 def get_departamento_by_name(Nombre_departamento):
     departamento = Departamento.query.get(Nombre_departamento)
     return Departamento_schema.jsonify(departamento)
 
-@app.route('/departamento/<Nombre_departamento>', methods=['PUT'])
+@app.route('/departamento/editar/<Nombre_departamento>', methods=['PUT'])
+@cross_origin()
 def update_departamento(Nombre_departamento):
     departamento = Departamento.query.get(Nombre_departamento)
 
@@ -83,6 +96,7 @@ def update_departamento(Nombre_departamento):
     return Departamento_schema.jsonify(departamento)
 
 @app.route('/departamento/<Nombre_departamento>', methods=['DELETE'])
+@cross_origin()
 def delete_departamento(Nombre_departamento):
     departamento = Departamento.query.get(Nombre_departamento)
     db.session.delete(departamento)
@@ -116,6 +130,7 @@ provinciaSchema = ProvinciaSchema()
 provinciasSchema = ProvinciaSchema(many=True)
 
 @app.route('/provincia', methods=['POST'])
+@cross_origin()
 def add_provincia():
     ID_provincia = request.json['ID_provincia']
     Nombre_provincia = request.json['Nombre_provincia']
@@ -128,22 +143,26 @@ def add_provincia():
     return provinciaSchema.jsonify(new_provincia)
 
 @app.route('/provincia', methods=['GET'])
+@cross_origin()
 def get_provincia():
     all_provincias = Provincia.query.all()
     result = provinciasSchema.dump(all_provincias)
     return jsonify(result)
 
 @app.route('/provincia/<Nombre_provincia>', methods=['GET'])
+@cross_origin()
 def get_provincia_by_name(Nombre_provincia):
     provincia = Provincia.query.get(Nombre_provincia)
     return provinciaSchema.jsonify(provincia)
 
 @app.route('/provincia/<ID_provincia>', methods=['GET'])
+@cross_origin()
 def get_provincia_by_id(ID_provincia):
     provincia = Provincia.query.filter_by(ID_provincia=ID_provincia).first()
     return provinciaSchema.jsonify(provincia)
 
-@app.route('/provincia/<Nombre_provincia>', methods=['PUT'])
+@app.route('/provincia/editar/<Nombre_provincia>', methods=['PUT'])
+@cross_origin()
 def update_provincia(Nombre_provincia):
     provincia = Provincia.query.get(Nombre_provincia)
 
@@ -156,7 +175,8 @@ def update_provincia(Nombre_provincia):
     db.session.commit()
     return provinciaSchema.jsonify(provincia)
 
-@app.route('/provincia/<ID_provincia>', methods=['PUT'])
+@app.route('/provincia/editar/<ID_provincia>', methods=['PUT'])
+@cross_origin()
 def update_provincia_by_id(ID_provincia):
     provincia = Provincia.query.filter_by(ID_provincia=ID_provincia).first()
 
@@ -171,6 +191,7 @@ def update_provincia_by_id(ID_provincia):
 
 
 @app.route('/provincia/<Nombre_provincia>', methods=['DELETE'])
+@cross_origin()
 def delete_provincia(Nombre_provincia):
     provincia = Provincia.query.get(Nombre_provincia)
     db.session.delete(provincia)
@@ -179,6 +200,7 @@ def delete_provincia(Nombre_provincia):
     return 'Provincia eliminada'
 
 @app.route('/provincia/<ID_provincia>', methods=['DELETE'])
+@cross_origin()
 def delete_provincia_by_id(ID_provincia):
     provincia = Provincia.query.filter_by(ID_provincia=ID_provincia).first()
     db.session.delete(provincia)
@@ -211,7 +233,8 @@ class UbigeoSchema(ma.Schema):
 ubigeoSchema = UbigeoSchema()
 ubigeosSchema = UbigeoSchema(many=True)
 
-@app.route('/ubigeo', methods=['POST'])
+@app.route('/ubigeo/nuevo', methods=['POST'])
+@cross_origin()
 def add_ubigeo():
     ID_ubigeo = request.json['ID_ubigeo']
     Nombre_departamento = request.json['Nombre_departamento']
@@ -225,17 +248,20 @@ def add_ubigeo():
     return ubigeoSchema.jsonify(new_ubigeo)
 
 @app.route('/ubigeo', methods=['GET'])
+@cross_origin()
 def get_ubigeo():
     all_ubigeos = Ubigeo.query.all()
     result = ubigeosSchema.dump(all_ubigeos)
     return jsonify(result)
 
 @app.route('/ubigeo/<ID_ubigeo>', methods=['GET'])
+@cross_origin()
 def get_ubigeo_by_id(ID_ubigeo):
     ubigeo = Ubigeo.query.get(ID_ubigeo)
     return ubigeoSchema.jsonify(ubigeo)
 
-@app.route('/ubigeo/<ID_ubigeo>', methods=['PUT'])
+@app.route('/ubigeo/editar/<ID_ubigeo>', methods=['PUT'])
+@cross_origin()
 def update_ubigeo(ID_ubigeo):
     ubigeo = Ubigeo.query.get(ID_ubigeo)
 
@@ -253,6 +279,7 @@ def update_ubigeo(ID_ubigeo):
     return ubigeoSchema.jsonify(ubigeo)
 
 @app.route('/ubigeo/<ID_ubigeo>', methods=['DELETE'])
+@cross_origin()
 def delete_ubigeo(ID_ubigeo):
     ubigeo = Ubigeo.query.get(ID_ubigeo)
     db.session.delete(ubigeo)
@@ -281,8 +308,9 @@ class Elector(db.Model):
     Direccion_elector = db.Column(db.String(70), nullable=False)
     Departamento_elector = db.Column(db.String(100), db.ForeignKey('Departamento.Nombre_departamento'), nullable=False, unique=False)
     ID_ubigeo_elector = db.Column(db.String(6), db.ForeignKey('Ubigeo.ID_ubigeo'), nullable=False, unique=False)
+    vector_elector = db.Column(db.String(70), nullable=False)
 
-    def __init__(self, ID_elector, DNI_elector, Nombre_elector, Apellidos_elector, Estado_elector, Tipo_elector, Email_elector, Telefono_elector, Nacimiento_elector, Genero_elector, Password_elector, Direccion_elector, Departamento_elector, ID_ubigeo_elector):
+    def __init__(self, ID_elector, DNI_elector, Nombre_elector, Apellidos_elector, Estado_elector, Tipo_elector, Email_elector, Telefono_elector, Nacimiento_elector, Genero_elector, Password_elector, Direccion_elector, Departamento_elector, ID_ubigeo_elector, vector_elector):
         self.ID_elector = ID_elector
         self.DNI_elector = DNI_elector
         self.Nombre_elector = Nombre_elector
@@ -297,17 +325,19 @@ class Elector(db.Model):
         self.Direccion_elector = Direccion_elector
         self.Departamento_elector = Departamento_elector
         self.ID_ubigeo_elector = ID_ubigeo_elector
+        self.vector_elector = vector_elector
 
 db.create_all()
 
 class ElectorSchema(ma.Schema):
     class Meta:
-        fields = ('ID_elector', 'DNI_elector', 'Nombre_elector', 'Apellidos_elector', 'Estado_elector', 'Tipo_elector', 'Email_elector', 'Telefono_elector', 'Nacimiento_elector', 'Genero_elector', 'Password_elector', 'Direccion_elector', 'Departamento_elector', 'ID_ubigeo_elector')
+        fields = ('ID_elector', 'DNI_elector', 'Nombre_elector', 'Apellidos_elector', 'Estado_elector', 'Tipo_elector', 'Email_elector', 'Telefono_elector', 'Nacimiento_elector', 'Genero_elector', 'Password_elector', 'Direccion_elector', 'Departamento_elector', 'ID_ubigeo_elector', 'vector_elector')
 
 electorSchema = ElectorSchema()
 electoresSchema = ElectorSchema(many=True)
 
-@app.route('/elector', methods=['POST'])
+@app.route('/elector/nuevo', methods=['POST'])
+@cross_origin()
 def add_elector():
     ID_elector = request.json['ID_elector']
     DNI_elector = request.json['DNI_elector']
@@ -323,8 +353,9 @@ def add_elector():
     Direccion_elector = request.json['Direccion_elector']
     Departamento_elector = request.json['Departamento_elector']
     ID_ubigeo_elector = request.json['ID_ubigeo_elector']
+    vector_elector = request.json['vector_elector']
 
-    nuevo_elector = Elector(ID_elector, DNI_elector, Nombre_elector, Apellidos_elector, Estado_elector, Tipo_elector, Email_elector, Telefono_elector, Nacimiento_elector, Genero_elector, Password_elector, Direccion_elector, Departamento_elector, ID_ubigeo_elector)
+    nuevo_elector = Elector(ID_elector, DNI_elector, Nombre_elector, Apellidos_elector, Estado_elector, Tipo_elector, Email_elector, Telefono_elector, Nacimiento_elector, Genero_elector, Password_elector, Direccion_elector, Departamento_elector, ID_ubigeo_elector, vector_elector)
     db.session.add(nuevo_elector)
     db.session.commit()
 
@@ -332,22 +363,26 @@ def add_elector():
 
 
 @app.route('/elector', methods=['GET'])
+@cross_origin()
 def get_elector():
     all_elector = Elector.query.all()
     result = electoresSchema.dump(all_elector)
     return jsonify(result)
 
 @app.route('/elector/<ID_elector>', methods=['GET'])
+@cross_origin()
 def get_elector_by_id(ID_elector):
     elector = Elector.query.get(ID_elector)
     return electorSchema.jsonify(elector)
 
 @app.route('/elector/<DNI_elector>', methods=['GET'])
+@cross_origin()
 def get_elector_by_dni(DNI_elector):
     elector = Elector.query.filter_by(DNI_elector=DNI_elector).first()
     return electorSchema.jsonify(elector)
 
-@app.route('/elector/<ID_elector>', methods=['PUT'])
+@app.route('/elector/editar/<ID_elector>', methods=['PUT'])
+@cross_origin()
 def update_elector(ID_elector):
     elector = Elector.query.get(ID_elector)
 
@@ -365,6 +400,8 @@ def update_elector(ID_elector):
     Direccion_elector = request.json['Direccion_elector']
     Departamento_elector = request.json['Departamento_elector']
     ID_ubigeo_elector = request.json['ID_ubigeo_elector']
+    vector_elector = request.json['vector_elector']
+
 
     elector.ID_elector = ID_elector
     elector.DNI_elector = DNI_elector
@@ -380,11 +417,14 @@ def update_elector(ID_elector):
     elector.Direccion_elector = Direccion_elector
     elector.Departamento_elector = Departamento_elector
     elector.ID_ubigeo_elector = ID_ubigeo_elector
+    elector.vector_elector = vector_elector
+
 
     db.session.commit()
     return electorSchema.jsonify(elector)
 
 @app.route('/elector/<ID_elector>', methods=['DELETE'])
+@cross_origin()
 def delete_elector(ID_elector):
     elector = Elector.query.get(ID_elector)
     db.session.delete(elector)
@@ -421,7 +461,8 @@ class Partido_politico_schema(ma.Schema):
 partido_politico_schema = Partido_politico_schema()
 partidos_politicos_schema = Partido_politico_schema(many=True)
 
-@app.route('/partido_politico', methods=['POST'])
+@app.route('/partido_politico/nuevo', methods=['POST'])
+@cross_origin()
 def add_partido_politico():
     ID_siglas_partido_politico = request.json['ID_siglas_partido_politico']
     Nombre_partido_politico = request.json['Nombre_partido_politico']
@@ -439,17 +480,20 @@ def add_partido_politico():
     return partido_politico_schema.jsonify(nuevo_partido_politico)
 
 @app.route('/partido_politico', methods=['GET'])
+@cross_origin()
 def get_partido_politico():
     all_partido_politico = Partido_politico.query.all()
     result = partidos_politicos_schema.dump(all_partido_politico)
     return jsonify(result)
 
 @app.route('/partido_politico/<ID_siglas_partido_politico>', methods=['GET'])
+@cross_origin()
 def get_partido_politico_by_id(ID_siglas_partido_politico):
     partido_politico = Partido_politico.query.get(ID_siglas_partido_politico)
     return partido_politico_schema.jsonify(partido_politico)
 
-@app.route('/partido_politico/<ID_siglas_partido_politico>', methods=['PUT'])
+@app.route('/partido_politico/editar/<ID_siglas_partido_politico>', methods=['PUT'])
+@cross_origin()
 def update_partido_politico(ID_siglas_partido_politico):
     partido_politico = Partido_politico.query.get(ID_siglas_partido_politico)
 
@@ -473,6 +517,7 @@ def update_partido_politico(ID_siglas_partido_politico):
     return partido_politico_schema.jsonify(partido_politico)
 
 @app.route('/partido_politico/<ID_siglas_partido_politico>', methods=['DELETE'])
+@cross_origin()
 def delete_partido_politico(ID_siglas_partido_politico):
     partido_politico = Partido_politico.query.get(ID_siglas_partido_politico)
     db.session.delete(partido_politico)
@@ -517,7 +562,8 @@ candidato_schema = Candidato_schema()
 candidatos_schema = Candidato_schema(many=True)
 
 
-@app.route('/candidato', methods=['POST'])
+@app.route('/candidato/nuevo', methods=['POST'])
+@cross_origin()
 def add_candidato():
     ID_candidato = request.json['ID_candidato']
     ID_candidato_elector = request.json['ID_candidato_elector']
@@ -539,17 +585,20 @@ def add_candidato():
 
 
 @app.route('/candidato', methods=['GET'])
+@cross_origin()
 def get_candidato():
     all_candidatos = Candidato.query.all()
     result = candidatos_schema.dump(all_candidatos)
     return jsonify(result)
 
 @app.route('/candidato/<ID_candidato>', methods=['GET'])
+@cross_origin()
 def get_candidato_by_id(ID_candidato):
     candidato = Candidato.query.get(ID_candidato)
     return candidato_schema.jsonify(candidato)
 
-@app.route('/candidato/<ID_candidato>', methods=['PUT'])
+@app.route('/candidato/editar/<ID_candidato>', methods=['PUT'])
+@cross_origin()
 def update_candidato(ID_candidato):
     candidato = Candidato.query.get(ID_candidato)
 
@@ -580,6 +629,7 @@ def update_candidato(ID_candidato):
     return candidato_schema.jsonify(candidato)
 
 @app.route('/candidato/<ID_candidato>', methods=['DELETE'])
+@cross_origin()
 def delete_candidato(ID_candidato):
     candidato = Candidato.query.get(ID_candidato)
     db.session.delete(candidato)
@@ -588,6 +638,73 @@ def delete_candidato(ID_candidato):
     return candidato_schema.jsonify(candidato)
 
 
+
+
+# ------------------------------------------------------------------------------------------------------------------------------------
+class Elecciones(db.Model):
+    __tablename__ = 'Elecciones'
+    ID_eleccion = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    Nombre_eleccion = db.Column(db.String(50), nullable=False)
+    Fecha_eleccion = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, ID_eleccion, Nombre_eleccion, Fecha_eleccion):
+        self.ID_eleccion = ID_eleccion
+        self.Nombre_eleccion = Nombre_eleccion
+        self.Fecha_eleccion = Fecha_eleccion
+
+db.create_all()
+
+class Elecciones_schema(ma.Schema):
+    class Meta:
+        fields = ('ID_eleccion', 'Nombre_eleccion', 'Fecha_eleccion')
+eleccion_schema = Elecciones_schema()
+elecciones_schema = Elecciones_schema(many=True)
+
+@app.route('/eleccion/nuevo', methods=['POST'])
+@cross_origin()
+def add_eleccion():
+    ID_eleccion = request.json['ID_eleccion']
+    Nombre_eleccion = request.json['Nombre_eleccion']
+    Fecha_eleccion = request.json['Fecha_eleccion']
+    
+    nueva_eleccion = Elecciones(ID_eleccion, Nombre_eleccion, Fecha_eleccion)
+
+    db.session.add(nueva_eleccion)
+    db.session.commit()
+        
+    return eleccion_schema.jsonify(nueva_eleccion)
+
+@app.route('/eleccion', methods=['GET'])
+@cross_origin()
+def get_elecciones():
+    elecciones = Elecciones.query.all()
+    return elecciones_schema.jsonify(elecciones)
+
+@app.route('/eleccion/editar/<ID_eleccion>', methods=['PUT'])
+@cross_origin()
+def editar_eleccion(ID_eleccion):
+    eleccion = Elecciones.query.get(ID_eleccion)
+
+    ID_eleccion = request.json['ID_eleccion']
+    Nombre_eleccion = request.json['Nombre_eleccion']
+    Fecha_eleccion = request.json['Fecha_eleccion']
+
+    eleccion.ID_eleccion = ID_eleccion
+    eleccion.Nombre_eleccion = Nombre_eleccion
+    eleccion.Fecha_eleccion = Fecha_eleccion
+
+    db.session.commit()
+
+    return eleccion_schema.jsonify(eleccion)
+
+@app.route('/eleccion/<ID_eleccion>', methods=['DELETE'])
+@cross_origin()
+def delete_eleccion(ID_eleccion):
+    eleccion = Elecciones.query.get(ID_eleccion)
+    db.session.delete(eleccion)
+    db.session.commit()
+
+    return eleccion_schema.jsonify(eleccion)
 
 # ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -601,24 +718,27 @@ class Cedula(db.Model):
     ID_candidato_cedula = db.Column(db.Integer, db.ForeignKey('Candidato.ID_candidato'), nullable=False)
     ID_ubigeo_cedula = db.Column(db.String(6), db.ForeignKey('Ubigeo.ID_ubigeo'), nullable=False)
     Fecha_cedula_voto = db.Column(db.DateTime, nullable=False)
+    ID_eleccion = db.Column(db.Integer, db.ForeignKey('Elecciones.ID_eleccion'), nullable=False)
  
-    def __init__(self, ID_cedula,ID_elector_cedula, ID_partido_politico_cedula, ID_candidato_cedula, ID_ubigeo_cedula, Fecha_cedula_voto):
+    def __init__(self, ID_cedula,ID_elector_cedula, ID_partido_politico_cedula, ID_candidato_cedula, ID_ubigeo_cedula, Fecha_cedula_voto, ID_eleccion):
         self.ID_cedula = ID_cedula
         self.ID_elector_cedula = ID_elector_cedula
         self.ID_partido_politico_cedula = ID_partido_politico_cedula
         self.ID_candidato_cedula = ID_candidato_cedula
         self.ID_ubigeo_cedula = ID_ubigeo_cedula
         self.Fecha_cedula_voto = Fecha_cedula_voto
+        self.ID_eleccion = ID_eleccion
 
 db.create_all()
 
 class Cedula_schema(ma.Schema):
     class Meta:
-        fields = ('ID_cedula', 'ID_elector_cedula', 'ID_partido_politico_cedula', 'ID_candidato_cedula', 'ID_ubigeo_cedula', 'Fecha_cedula_voto')
+        fields = ('ID_cedula', 'ID_elector_cedula', 'ID_partido_politico_cedula', 'ID_candidato_cedula', 'ID_ubigeo_cedula', 'Fecha_cedula_voto', 'ID_eleccion')
 cedula_schema = Cedula_schema()
 cedulas_schema = Cedula_schema(many=True)
 
-@app.route('/cedula', methods=['POST'])
+@app.route('/cedula/nuevo', methods=['POST'])
+@cross_origin()
 def add_cedula():
     ID_cedula = request.json['ID_cedula']
     ID_elector_cedula = request.json['ID_elector_cedula']
@@ -626,8 +746,9 @@ def add_cedula():
     ID_candidato_cedula = request.json['ID_candidato_cedula']
     ID_ubigeo_cedula = request.json['ID_ubigeo_cedula']
     Fecha_cedula_voto = request.json['Fecha_cedula_voto']
+    ID_eleccion = request.json['ID_eleccion']
 
-    nuevo_cedula = Cedula(ID_cedula, ID_elector_cedula, ID_partido_politico_cedula, ID_candidato_cedula, ID_ubigeo_cedula, Fecha_cedula_voto)
+    nuevo_cedula = Cedula(ID_cedula, ID_elector_cedula, ID_partido_politico_cedula, ID_candidato_cedula, ID_ubigeo_cedula, Fecha_cedula_voto, ID_eleccion)
 
     db.session.add(nuevo_cedula)
     db.session.commit()
@@ -635,11 +756,13 @@ def add_cedula():
     return cedula_schema.jsonify(nuevo_cedula)
 
 @app.route('/cedula', methods=['GET'])
+@cross_origin()
 def get_cedulas():
     cedulas = Cedula.query.all()
     return cedulas_schema.jsonify(cedulas)
 
 @app.route('/cedula/<ID_cedula>', methods=['GET'])
+@cross_origin()
 def get_cedula(ID_cedula):
     cedula = Cedula.query.get(ID_cedula)
     return cedula_schema.jsonify(cedula)

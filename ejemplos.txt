@@ -12,7 +12,8 @@
     "Nacimiento_elector" : "1997-10-28",
     "Genero_elector" : "Masculino",
     "Password_elector" : "4587541213",
-    "ID_ubigeo_elector" : "040101"
+    "ID_ubigeo_elector" : "040101",
+    "vector_elector" :0.154632
 }
 
 {
@@ -30,6 +31,7 @@
     "Genero_elector" : "Femenino",
     "Password_elector" : "235647852",
     "ID_ubigeo_elector" : "080104"
+    "vector_elector" :0.154632
 }
 {
     "ID_elector" : "sha89ty400",
@@ -46,11 +48,12 @@
     "Genero_elector" : "Masculino",
     "Password_elector" : "156897845",
     "ID_ubigeo_elector" : "010103"
+    "vector_elector" :0.154632
 }
 {
     "ID_elector" : "sha40ty356",
     "DNI_elector" : 26568789,
-    "Nombre_elector" : "Silvip",
+    "Nombre_elector" : "Silvio",
     "Apellidos_elector" : "Rodriguez",
     "Estado_elector" : 0,
     "Tipo_elector" : "Elector",
@@ -62,7 +65,80 @@
     "Genero_elector" : "Masculino",
     "Password_elector" : "568795456",
     "ID_ubigeo_elector" : "110102"
+    "vector_elector" :0.154632
 }
+
+-------------------------------------------------- eletor
+
+        {
+          ID_elector : "sha45ty929",
+          DNI_elector : "76918799",
+          Nombre_elector : "Fabricio",
+          Apellidos_elector : "Centeno",
+          Estado_elector : "0",
+          Tipo_elector : "elector",
+          Direccion_elector : "Urb. Crisantemos",
+          Departamento_elector : "Arequipa",
+          Email_elector : "rcentenoc@gmail.com",
+          Telefono_elector : "989131389",
+          Nacimiento_elector : "1997-10-28",
+          Genero_elector : "Masculino",
+          Password_elector : "4587541213",
+          ID_ubigeo_elector : "040101",
+          vector_elector :"0.154632"
+        },
+        {
+          ID_elector: "sha35ty100",
+          DNI_elector : "56458789",
+          Nombre_elector : "Luciana",
+          Apellidos_elector : "Puente de la Vega",
+          Estado_elector : "0",
+          Tipo_elector : "Elector",
+          Direccion_elector : "Urb. Los jacintos",
+          Departamento_elector : "Cusco",
+          Email_elector : "lpuentev@gmail.com",
+          Telefono_elector : "987545621",
+          Nacimiento_elector : "1998-03-25",
+          Genero_elector : "Femenino",
+          Password_elector : "235647852",
+          ID_ubigeo_elector : "080104",
+          vector_elector :"0.154632"
+        },
+        {
+          ID_elector : "sha89ty400",
+          DNI_elector : "01254565",
+          Nombre_elector : "Lisandro",
+          Apellidos_elector : "Aristimuño",
+          Estado_elector : "0",
+          Tipo_elector : "Candidato",
+          Direccion_elector : "Urb. Matorrales F-21",
+          Departamento_elector : "Amazonas",
+          Email_elector : "laristimuño@gmail.com",
+          Telefono_elector : "9897854",
+          Nacimiento_elector : "1985-03-25",
+          Genero_elector : "Masculino",
+          Password_elector : "156897845",
+          ID_ubigeo_elector : "010103",
+          vector_elector :"0.154632"
+        },
+        {
+          ID_elector : "sha40ty356",
+          DNI_elector : "26568789",
+          Nombre_elector : "Silvip",
+          Apellidos_elector : "Rodriguez",
+          Estado_elector : "0",
+          Tipo_elector : "Elector",
+          Direccion_elector : "Urb. Velasco Astete S-15",
+          Departamento_elector : "Ica",
+          Email_elector : "sroduiguez@gmail.com",
+          Telefono_elector : "945687856",
+          Nacimiento_elector : "1950-01-20",
+          Genero_elector : "Masculino",
+          Password_elector : "568795456",
+          ID_ubigeo_elector : "110102",
+          vector_elector :"0.154632"
+        },
+
 
 
 -------------------------------------------------- partido
@@ -112,3 +188,89 @@
     "Fecha_cedula_voto":"2021-03-25 11:25:02"
 }
 
+{   
+    "ID_cedula":2,
+    "ID_elector_cedula": "sha40ty356", 
+    "ID_partido_politico_cedula": "APRA", 
+    "ID_candidato_cedula":"2", 
+    "ID_ubigeo_cedula":"040203", 
+    "Fecha_cedula_voto":"2021-03-25 11:25:02"
+}
+
+{   
+    "ID_cedula":3,
+    "ID_elector_cedula": "sha89ty400", 
+    "ID_partido_politico_cedula": "APRA", 
+    "ID_candidato_cedula":"2", 
+    "ID_ubigeo_cedula":"050101", 
+    "Fecha_cedula_voto":"2021-03-25 11:25:02"
+}
+
+_____________________________________________________________________________
+
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "start": "npm run dev",
+    "build": "node build/build.js"
+
+_____________________________________________________________________________
+
+DOCKER
+
+docker run -p 9000:9000 -p 8000:8000 -p 81:81 -t -i bamos/openface /bin/bash
+docker run -p 9000:9000 -p 8000:8000 -p 81:81 --name openfaceprueba -t -i openfaceprueba /bin/bash
+
+cd root/openface
+./demos/web/start-servers.sh
+docker ps
+docker network ls
+docker network inspect bridge
+
+docker commit 26c94649ea62 openfaceflask
+
+____________________________________________________________________________________________________
+
+"{"ID_elector":"sha123123",
+"DNI_elector":"45789612",
+Nombre_elector":"Elena",
+"Apellidos_elector":"Nito del Bosque",
+"Estado_elector":"0",
+"Tipo_elector":"Elector",
+"Email_elector":"rcentenoc@ulasalle.edu.pe",
+"Telefono_elector":"932001792","Nacimiento_elector":"2000/12/03",
+"Genero_elector":"Femenino",
+"Password_elector":"4578dsads",
+"Direccion_elector":"Urb. Piedra Santa II etapa Calle Umberto Boccioni S-17",
+"Departamento_elector":"Arequipa",
+"ID_ubigeo_elector":"040101",
+from enum import unique
+from flask import Flask, request, jsonify, redirect, make_response, session
+from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+from flask_cors import CORS, cross_origin
+import psycopg2
+
+app = Flask(__name__)
+cors = CORS(app)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/flaskmysql'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+app.config['SECRET_KEY'] = 'mysecretkey'
+app.config['WTF_CSRF_ENABLED']= False
+
+db = SQLAlchemy(app)
+ma = Marshmallow(app)
+
+# conn = psycopg2.connect(database="flaskmysql", user="root", password="", host="localhost", port="5432")
+# cursor = conn.cursor()
+
+# -----------------------------------------------------------------------------------------------------------------------------------
+
+@app.route('/')
+def index():
+    response = make_response(redirect('/api'))
+    return response
+
+@app.route('/api', methods=['GET', 'POST'])
+def hello ():
+    return 'Bienvenido a mi API'"vector_elector":"0.25689"}"

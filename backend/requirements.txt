@@ -5,3 +5,4 @@ marshmallow-sqlalchemy
 pymysql
 fastapi
 uvicorn
+flask_cors
