@@ -45,10 +45,17 @@
 
 ## OBJETIVOS
 
-- Aprender a manejar un sistema de control de versiones de manera colaborativa con varios
-usuarios
+- Aprender a manejar un sistema web que recrea un esquema de votación en línea, sueprvisado por una dminsitrador y garantizado por códigos HASH que ayudan en la interacción de seguridad del sistema-
+
 
 ## TEMAS
+- VUE
+- VUETIFY
+- FLASK
+- PYTHON
+- XAMP
+- MYSQL
+- MYSQLALQCHEMY
 - Git
 - GitHub
   
